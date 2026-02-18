@@ -10,44 +10,15 @@
 
 
 # Runtime
-# FROM eclipse-temurin:21-jre-alpine
-
-# WORKDIR /app
-
-# COPY /target/*.jar application.jar
-# EXPOSE 8080
-
-# ENTRYPOINT ["java","-jar","application.jar"]
-
-
-
-# DEPLOY - Back4App
-# ==============================
-# Stage 1 - Build da aplicação
-# ==============================
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-
-WORKDIR /app
-
-# Copia todo o projeto
-COPY . .
-
-# Gera o jar
-RUN mvn clean package -DskipTests
-
-# ==============================
-# Stage 2 - Runtime
-# ==============================
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copia qualquer jar gerado
-COPY --from=build /app/target/*.jar app.jar
-
+COPY /target/*.jar application.jar
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","application.jar"]
+
 
 
 
