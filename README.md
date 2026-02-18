@@ -127,8 +127,8 @@ docker compose up --build
 
 Desenvolvido por **Claiton Dos Santos Silva**
 
-📎 LinkedIn: (adicione seu link aqui)
-📎 GitHub: (adicione seu perfil aqui)
+📎 LinkedIn: (https://www.linkedin.com/in/claiton-dos-santos-silva-97bb90245/)
+📎 GitHub: (https://github.com/Claitonok/pg_api)
 
 ---
 
