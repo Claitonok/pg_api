@@ -92,15 +92,15 @@ services:
       - postgres
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_postgreSQL
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_USERNAME: 
+      SPRING_DATASOURCE_PASSWORD: 
 
   postgres:
     image: postgres:15
     environment:
       POSTGRES_DB: db_postgreSQL
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: 
+      POSTGRES_PASSWORD: 
     ports:
       - "5432:5432"
 ```
