@@ -1,76 +1,75 @@
-# 🚀 API de Pagamentos
+# 💳 Pagamento API - Spring Boot + Mercado Pago + PIX
 
-API REST desenvolvida com **Spring Boot** para gerenciamento de pagamentos, utilizando PostgreSQL como banco de dados e Docker para containerização da aplicação.
+API de pagamentos desenvolvida com **Spring Boot**, integrada ao **Mercado Pago**, com suporte a **PIX**, persistência em **PostgreSQL**, Dockerizada e preparada para ambiente de produção.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
-* ☕ Java 21
+* ☕ Java 17
 * 🌱 Spring Boot
-* 🗄️ PostgreSQL
-* 🐳 Docker
+* 💳 Integração com Mercado Pago
+* 🐘 PostgreSQL
+* 🐳 Docker & Docker Compose
 * 📦 Maven
-* 🔁 JPA / Hibernate
+* 🔐 Webhook com validação de assinatura
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📌 Funcionalidades
+
+✔ Criar pagamento via PIX
+✔ Gerar QR Code (texto e base64)
+✔ Persistência de pagamentos no banco
+✔ Atualização automática via Webhook
+✔ Estrutura pronta para produção
+✔ Suporte a variáveis de ambiente
+✔ Containerização com Docker
+
+---
+
+## 🏗️ Arquitetura do Projeto
 
 ```
-pg_api/
+src/main/java/com/seuprojeto
 │
-├── src/
-├── target/
-├── Dockerfile
-├── pom.xml
-└── README.md
+├── config        # Configurações do Mercado Pago
+├── controller    # Endpoints da API
+├── service       # Regras de negócio
+├── entity        # Entidades JPA
+├── repository    # Acesso ao banco
 ```
 
 ---
 
-## ⚙️ Configuração do Banco de Dados
+## ⚙️ Configuração
 
-Arquivo `application.properties`:
+### 1️⃣ Variáveis de Ambiente
 
-```properties
-spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/db_postgreSQL
-spring.datasource.username=
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=update
+Crie as seguintes variáveis:
+
+```
+MERCADOPAGO_ACCESS_TOKEN=SEU_TOKEN
+MERCADOPAGO_WEBHOOK_SECRET=SEU_SECRET
 ```
 
 ---
 
-## ▶️ Como Executar o Projeto
+## 🐳 Executando com Docker
 
-### 🔹 1. Gerar o JAR
+### Build da aplicação
 
 ```bash
-.\mvnw.cmd clean package -DskipTests
+mvn clean package
 ```
 
----
-
-### 🔹 2. Build da imagem Docker
+### Subir containers
 
 ```bash
-docker build -t api-pagamento .
+docker-compose up --build
 ```
 
----
-
-### 🔹 3. Executar o container
-
-```bash
-docker run -p 8080:8080 --name project-pagamentos api-pagamento
-```
-
----
-
-## 🌐 Acessar a API
-
-Após subir o container:
+A API estará disponível em:
 
 ```
 http://localhost:8080
@@ -78,61 +77,99 @@ http://localhost:8080
 
 ---
 
-## 🐳 Executando com Docker Compose (Recomendado)
+## 💳 Criar Pagamento PIX
 
-```yaml
-version: '3.8'
+### Endpoint
 
-services:
-  api:
-    build: .
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_postgreSQL
-      SPRING_DATASOURCE_USERNAME: 
-      SPRING_DATASOURCE_PASSWORD: 
-
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: db_postgreSQL
-      POSTGRES_USER: 
-      POSTGRES_PASSWORD: 
-    ports:
-      - "5432:5432"
+```
+POST /pagamentos/pix
 ```
 
-Rodar:
+### Exemplo
 
-```bash
-docker compose up --build
+```
+POST http://localhost:8080/pagamentos/pix?valor=100&email=cliente@email.com
+```
+
+### Resposta
+
+```json
+{
+  "qr_code": "000201...",
+  "qr_code_base64": "iVBORw0KGgoAAAANS..."
+}
 ```
 
 ---
 
-## 📌 Funcionalidades
+## 🔔 Webhook
 
-* ✅ Cadastro de pagamentos
-* ✅ Atualização de registros
-* ✅ Consulta de pagamentos
-* ✅ Integração com banco PostgreSQL
-* ✅ Containerização com Docker
+Endpoint responsável por receber notificações automáticas de pagamento.
+
+```
+POST /webhook
+```
+
+⚠️ Em produção:
+
+* Validar assinatura HMAC SHA256
+* Consultar pagamento na API do Mercado Pago antes de atualizar status
+* Nunca confiar apenas no payload recebido
 
 ---
 
-## 🧑‍💻 Autor
+## 🗄️ Banco de Dados
 
-Desenvolvido por **Claiton Dos Santos Silva**
+Banco: PostgreSQL
+Tabela: pagamento
 
-📎 LinkedIn: (https://www.linkedin.com/in/claiton-dos-santos-silva-97bb90245/)
-<br>
-📎 GitHub: (https://github.com/Claitonok/pg_api)
+Campos principais:
+
+* id
+* payment_id
+* email
+* valor
+* status
+* tipo (PIX)
+
+---
+
+## 🔐 Segurança
+
+* Tokens protegidos por variáveis de ambiente
+* Não versionar credenciais
+* Webhook validado por assinatura
+* Pronto para integração com Spring Security + JWT
+
+---
+
+## 🔄 Fluxo de Pagamento
+
+Cliente → API → Mercado Pago → Cliente paga via PIX
+→ Mercado Pago envia Webhook → API valida assinatura
+→ API consulta pagamento → Atualiza banco
+
+---
+
+## 📈 Melhorias Futuras
+
+* Pagamento com cartão
+* Assinaturas recorrentes
+* Split de pagamento
+* Dashboard administrativo
+* Autenticação JWT
+* Deploy AWS / Render
+* CI/CD com GitHub Actions
+
+---
+
+## 👨‍💻 Autor
+
+Claiton Dos Santos Silva
+Desenvolvedor Backend Java
 
 ---
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT.
+Este projeto é apenas para fins educacionais e demonstração técnica.

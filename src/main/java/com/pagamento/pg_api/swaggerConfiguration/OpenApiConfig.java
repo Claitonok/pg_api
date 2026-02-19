@@ -12,8 +12,8 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API de Pagamentos")
+                        .title("API de Pagamentos MercadoPago")
                         .version("1.0")
-                        .description("API REST para gerenciamento de pagamentos"));
+                        .description("API para processar pagamentos via MercadoPago usando Spring Boot"));
     }
 }

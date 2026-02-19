@@ -1,0 +1,27 @@
+{
+  "properties": [
+  {
+    "name": "mercadopago.access.token",
+    "type": "java.lang.String",
+    "description": "A description for '${MERCADOPAGO_ACCESS_TOKEN}'",
+    "Values": [
+      {
+        "value": "${MERCADOPAGO_ACCESS_TOKEN}",
+        "description": "A description for the value '${MERCADOPAGO_ACCESS_TOKEN}'"
+      }
+    ]
+  },
+
+  {
+    "name": "mercadopago.webhook.secret",
+    "type": "java.lang.String",
+    "description": "A description for '${MERCADOPAGO_WEBHOOK_SECRET}'",
+    "Values": [
+      {
+        "value": "${MERCADOPAGO_WEBHOOK_SECRET}",
+        "description": "A description for the value '${MERCADOPAGO_WEBHOOK_SECRET}'"
+      }
+    ]
+  }
+]
+}
