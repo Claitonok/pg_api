@@ -3,6 +3,7 @@ package com.pagamento.pg_api.controller;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PagamentoController {
 
-    private final PagamentoService pagamentoService;
+    private PagamentoService pagamentoService;
 
     @PostMapping("/pix")
     public ResponseEntity<?> criarPix(@RequestParam BigDecimal valor,
