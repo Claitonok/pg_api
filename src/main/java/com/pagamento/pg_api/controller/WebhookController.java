@@ -17,7 +17,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/webhook")
+@RequestMapping("/webhook") 
 @RequiredArgsConstructor
 public class WebhookController {
 
